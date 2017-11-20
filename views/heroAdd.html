@@ -63,7 +63,8 @@
           processData: false,
           data: formData,
           success: function (data) {
-            if(JSON.parse(data).success_code==200){
+            console.log(data);
+            if(JSON.parse(data).success_code==0){
               window.location=document.referrer;
             }
 
