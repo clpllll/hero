@@ -39,9 +39,9 @@
                     <td>{{v.gender}}</td>
                     <td><img src="{{v.icon}}"></td>
                     <td>
-                        <a href="./heroInfo.html">查看</a>
-                        <a href="./heroEdit.html">编辑</a>
-                        <a href="/delete">删除</a>
+                        <a href="./heroInfo.html?id={{v.id}}">查看</a>
+                        <a href="./heroEdit.html?id={{v.id}}">编辑</a>
+                        <a href="/delete?id={{v.id}}">删除</a>
                     </td>
                 </tr>
                 {{/each}}

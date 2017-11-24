@@ -8,13 +8,16 @@ var container = require('./controller.js');
 
 module.exports = function (req, res) {
   req.url = decodeURI(req.url);
-  // console.log(req.url);
-  container.showhero(req,res);
+  console.log(req.url);
+  console.log(req.method);
+  container.showhero(req, res);
+ 
 
 
   // console.log(url1.parse(req.url, true));
   //url模块获取url数据 
   var nowurl = url1.parse(req.url, true);
+  console.log(nowurl.pathname);
   // console.log(req.url);
   // console.log(nowurl);
   /**Url {
@@ -33,10 +36,10 @@ module.exports = function (req, res) {
   */
   if (req.url === '/') {
     var htmlName = 'heroList.html';
-    render(res,htmlName);
+    render(res,htmlName,'hero.json');
     
   } else if (req.url.indexOf('/node_modules') === 0&& req.method ==="GET") {
-    // console.log(path.join(__dirname, req.url));
+
     readAtoA(req,res);
     
   } else if (req.url.indexOf('/public') === 0 && req.method ==="GET") {
@@ -45,8 +48,7 @@ module.exports = function (req, res) {
     htmlName ='heroAdd.html'
     render(res,htmlName);
   } else if (nowurl.pathname === '/getadd' && req.method === "GET") {
-    // console.log('heheh');
-    // console.log(JSON.stringify(nowurl.query));
+
     res.end("请用post");
   } else if (nowurl.pathname === '/getadd' && req.method === "POST") {
     container.addhero(req,res);
@@ -54,11 +56,29 @@ module.exports = function (req, res) {
    
   } else if (nowurl.pathname === "/heroEdit.html" && req.method === "GET") {
     //提供修改的需要的数据
-    // console.log('hh');
+    container.heroEdit(req,res, nowurl.query.id);
+    
   } else if (nowurl.pathname === "/heroEdit.html" && req.method === "POST") {
     //修改完成
-  } else if (nowurl.pathname === "/heroinfo.html" && req.method === "GET") {
-    //提供英雄的详细数据
+    container.updatehero(req, res, function (err) {
+      res.end(err);
+    });
+  } else if (nowurl.pathname === "/heroInfo.html" && req.method === "GET") {
+   //接收id 查询对应的数据 渲染页面
+    container.infohero(req,res, nowurl.query.id);
+
+
+  } else if (nowurl.pathname === '/delete' && req.method === 'GET') {
+    console.log('hhh');
+    container.delhero(req, res, nowurl.query.id, function (err) {
+      if (err) {
+        throw err;
+      } else {
+        htmlName = 'heroList.html';
+        render(res,htmlName,'hero.json'); 
+     }
+    })
+
   }
   
 }

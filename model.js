@@ -14,7 +14,7 @@ function getJsonData(callback) {
 }
 
 //添加数据的模块
-module.exports = function addHero(res, obj, callback) {
+function addHero(res, obj, callback) {
                                             //形参
   getJsonData(function (err, olddata) {
               //实参    形参
@@ -49,3 +49,6 @@ function savehero(olddata,callback) {
 
   })
 }
+module.exports.getJsonData = getJsonData;
+module.exports.addHero = addHero;
+module.exports.savehero = savehero;
